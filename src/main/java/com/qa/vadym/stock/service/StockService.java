@@ -5,5 +5,5 @@ import com.qa.vadym.stock.model.Stock;
 import java.math.BigDecimal;
 
 public interface StockService {
-    public BigDecimal getPrice(Stock stock);
+    BigDecimal getPrice(Stock stock);
 }

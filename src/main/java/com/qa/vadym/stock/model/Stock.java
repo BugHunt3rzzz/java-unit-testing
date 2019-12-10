@@ -1,42 +1,16 @@
 package com.qa.vadym.stock.model;
 
-public class Stock {
-    private String stockId;
+public enum Stock {
+    APPL(1, "Apple"),
+    GGL(2, "Google"),
+    UBER(3, "Uber");
+
+    private int id;
     private String name;
-    private int quantity;
 
-    public Stock() {
-    }
-
-    public Stock(String stockId, String name, int quantity) {
-        this.stockId = stockId;
+    Stock(int id, String name) {
+        this.id = id;
         this.name = name;
-        this.quantity = quantity;
     }
 
-    public String getStockId() {
-        return stockId;
-    }
-
-    public void setStockId(String stockId) {
-        this.stockId = stockId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public String getTicker() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return "Stock{" +
-                "stockId='" + stockId + '\'' +
-                ", name='" + name + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
 }
-

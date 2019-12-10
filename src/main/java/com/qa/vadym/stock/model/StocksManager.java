@@ -9,27 +9,34 @@ import java.util.List;
 
 public class StocksManager {
     private StockService stockService;
-    private List<Stock> stocks;
+    private List<StockHolder> stockHolders;
 
-    public StocksManager(StockService stockService, List<Stock> stocks) {
+    public StocksManager(StockService stockService, List<StockHolder> stockHolders) {
         this.stockService = stockService;
-        this.stocks = stocks;
+        this.stockHolders = stockHolders;
     }
 
     public BigDecimal getStocksValue() {
         BigDecimal marketValue = BigDecimal.ZERO;
 
-        for (Stock stock : stocks) {
-            marketValue = marketValue.add(stockService.getPrice(stock).multiply(new BigDecimal(stock.getQuantity())));
+        for (StockHolder stockHolder : stockHolders) {
+            marketValue = marketValue.add(
+                    stockService.getPrice(stockHolder.getStock()).multiply(new BigDecimal(stockHolder.getQuantity())));
         }
         return marketValue;
     }
 
-    public Stock returnMostValuableStock() throws StockNotFoundException {
-        return stocks.stream()
+    public Stock returnMostValuableStock() {
+        return stockHolders.stream()
+                .map(StockHolder::getStock)
                 .max(Comparator.comparing(stock -> stockService.getPrice(stock).doubleValue()))
-                .orElseThrow(() -> new StockNotFoundException("Most valuable stock wos not found"));
-
+                .orElseThrow(() -> new StockNotFoundException("no stock found"));
     }
 
+    public StockHolder returnMostValuableStockHolder() {
+        return stockHolders.stream()
+                .max(Comparator.comparing(stockHolder ->
+                        stockService.getPrice(stockHolder.getStock()).doubleValue() * stockHolder.getQuantity()))
+                .orElseThrow(() -> new StockNotFoundException("no stock found"));
+    }
 }
